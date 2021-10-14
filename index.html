@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://kit.fontawesome.com/7c9507e888.js" crossorigin="anonymous"></script>
+    <title>WeatherBee</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>WeatherBee</h1>
+            <i class="fab fa-forumbee bee"></i>
+        </div>
+        <div class="search-area">
+            <div class="search-wrap">
+                <input id="search-bar" class="search-bar" type="text" placeholder="Enter Location">
+                <i class="fas fa-search"></i>
+            </div>
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </header>
+    <main>
+        <div id="current-weather" class="current-wrap">
+            <span id="city-name" class="city-name">City</span>
+            <span id="current-condition" class="current-text">Condition</span>
+            <span id="current-temp" class="current-temp">70</span>
+            <div id="current-icon" class="current-icon"></div>
+            <span id="current-hi-lo" class="current-hi-lo">
+                <span id="current-high" class="current-text">H:74</span>
+                <span id="current-low" class="current-text">L:65</span>
+            </span>
+        </div>
+        <div id="hourly-weather" class="hourly-wrap"></div>
+        <div id="weekly-weather" class="weekly-wrap"></div>
+    </main>
+    <footer>
+        Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
