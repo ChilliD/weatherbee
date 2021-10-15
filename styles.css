@@ -19,7 +19,7 @@ header {
 .logo {
     display: flex;
     align-items: center;
-    width: 30%;
+    width: 25%;
     font-size: .75em;
     font-weight: 400;
     box-sizing: border-box;
@@ -71,6 +71,19 @@ header {
 
 .search-results {
     visibility: hidden;
+    box-sizing: border-box;
+    z-index: 5;
+    position: absolute;
+    top: 4em;
+    margin: auto;
+    width: 45%;
+    box-shadow: 0 2em 3em .25em #000000;
+}
+
+.result-card {
+    padding: 1em;
+    background-color: #353b48;
+    border-top: 1px solid #718093;
 }
 
 main {
@@ -202,9 +215,6 @@ footer {
     margin: auto;
     text-align: center;
     font-size: .75em;
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 5%;
     box-sizing: border-box;

@@ -1,37 +1,78 @@
-const baseUrl = 'http://api.weatherapi.com/v1';
+const baseUrl = 'https://api.weatherapi.com/v1';
 const apiKey = 'key=e55e609877d54486be9191457211210';
 
-let ipLocation = [];
 let ipZip;
 let currentWeather = [];
 let forecastWeather = [];
 let forecastDay;
 let forecastHour = [];
 let hrsArray = [];
-let boxes;
+let resultsActive = false;
 
 getIp();
 
 let searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('keyup', (e) => {
-    let str = e.target.value.toLowerCase();
-    let url = baseUrl + '/search.json?' + apiKey + 'q=' + str;
-    
-    /*fetch(url)
-        .then(response => response.json)
-        .then(data => )*/
+    let str = e.target.value;
+    let url = baseUrl + '/search.json?' + apiKey + '&q=' + str;
+    let resultBox = document.getElementById('search-results');
 
-    // create div to hold search results
-    // div not visible unless searching
-    // show results in div on keyup
+    if (str.length === 0) {
+        resultBox.style.visibility = 'hidden';
+        resultsActive = false; 
+    } else if (str.length  >= 4) { 
+        resultBox.style.visibility = 'visible';
+        resultsActive = true;
+        clearContainer(resultBox); 
+    
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let results = data.slice(0, 6);
+                results.forEach(val => drawResultCard(val));
+            });
+    } else {
+        resultBox.style.visibility = 'hidden';
+        resultsActive = false;
+    }
 });
+
+document.addEventListener('click', function(e) {
+    let searchArea = document.getElementById('search-area');
+    let searchBar = document.getElementById('search-bar');
+    let resultBox = document.getElementById('search-results');
+    if (resultsActive && e.target != searchArea) {
+        resultsActive = false;
+        resultBox.style.visibility = 'hidden';
+    } else if (!resultsActive && e.target === searchBar) {
+        resultsActive = true;
+        resultBox.style.visibility = 'visible';
+    }
+});
+
+function drawResultCard(location) {
+    let parent = document.getElementById('search-results');
+    let child = document.createElement('div');
+    child.classList.add('result-card');
+    child.innerHTML = 
+        `<span class="result-title">${location.name}</span>
+        `;
+    child.addEventListener('click', function() {
+        clearContainer(parent);
+        getForecast(location.name);
+    })
+    parent.appendChild(child);
+}
+
+function clearContainer(parent) {
+    while (parent.firstChild) { parent.removeChild(parent.lastChild) }
+}
 
 function getIp() {
     fetch('https://ipapi.co/json/')
     .then(response => response.json())
     .then(data => {
-        ipLocation = data;
-        ipZip = ipLocation.postal;
+        ipZip = data.postal;
         getForecast(ipZip);
     });
 }
@@ -68,8 +109,10 @@ function drawHourlyForecast(fcastArr) {
     let d = new Date(currentTime * 1000);
     let currentHour = d.getHours();
     let twelveHrs = fcastArr.slice(currentHour, currentHour + 13);
+    let parent = document.getElementById('hourly-weather');
+    clearContainer(parent);
     twelveHrs.forEach(hour => createHourlyBox(hour));
-    boxes = document.getElementsByClassName('hour-time');
+    let boxes = document.getElementsByClassName('hour-time');
     boxes[0].innerHTML = 'Now';
 }
 
@@ -127,6 +170,7 @@ function drawWeeklyForecast(fcast) {
                 <span class="daily-text">Chance of Rain: <br />${rain}%</span>
             </span>
         </span>`;
+    clearContainer(parent);
     parent.appendChild(child);
 }
 
