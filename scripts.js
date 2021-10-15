@@ -112,8 +112,14 @@ function drawHourlyForecast(fcastArr) {
     let parent = document.getElementById('hourly-weather');
     clearContainer(parent);
     twelveHrs.forEach(hour => createHourlyBox(hour));
-    let boxes = document.getElementsByClassName('hour-time');
-    boxes[0].innerHTML = 'Now';
+    // Replace first box with current info
+    let hourTimes = document.getElementsByClassName('hour-time');
+    hourTimes[0].innerHTML = 'Now';
+    let hourIcons = document.getElementsByClassName('hour-icon');
+    hourIcons[0].innerHTML = 
+        `<img src="${currentWeather.current.condition.icon}"></img>`;
+    let hourTemps = document.getElementsByClassName('hour-temp');
+    hourTemps[0].innerHTML = Math.round(currentWeather.current.temp_f) + '&#176';
 }
 
 function convertToHour(epoch) {
@@ -134,7 +140,7 @@ function createHourlyBox(hour) {
     child.classList.add('hourly-box');
     child.innerHTML = 
         `<span class="hour-time">${time}</span>
-        <img class="hour-icon" src="${iconUrl}"></img>
+        <span class="hour-icon"> <img src="${iconUrl}"></img> </span>
         <span class="hour-temp">${temp}</span>`;
     parent.appendChild(child);
 }
